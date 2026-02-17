@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict - Online Payments Fraud Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            background: #a8d4f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Navbar ── */
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 14px 30px;
+            background: transparent;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 4px;
+            background: #4a90b8;
+            margin-left: 10px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        nav a:hover {
+            background: #3a7ca5;
+            transform: translateY(-1px);
+        }
+
+        nav a.active {
+            background: #3a7ca5;
+        }
+
+        /* ── Main Content ── */
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 10px 40px 40px;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        /* ── Left: Form ── */
+        .form-section {
+            flex: 1;
+            max-width: 420px;
+        }
+
+        .form-section h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-family: 'Roboto', sans-serif;
+            color: #666;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #f5f8fa;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+            font-style: normal;
+        }
+
+        .form-group input:focus {
+            border-color: #4a90b8;
+            box-shadow: 0 0 0 3px rgba(74, 144, 184, 0.15);
+        }
+
+        .btn-predict {
+            margin-top: 8px;
+            padding: 12px 32px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            background: #4a90b8;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-predict:hover {
+            background: #3a7ca5;
+            transform: translateY(-1px);
+        }
+
+        /* ── Right: Illustration ── */
+        .illustration-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+        }
+
+        .illustration-section svg {
+            width: 100%;
+            max-width: 480px;
+            height: auto;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 860px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px 24px 30px;
+            }
+
+            .form-section {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .illustration-section {
+                min-height: auto;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="/">Home</a>
+        <a href="/predict" class="active">Predict</a>
+    </nav>
+
+    <div class="container">
+        <!-- Left: Form -->
+        <div class="form-section">
+            <h1>Online Payments Fraud Detection</h1>
+
+            <form action="/pred" method="POST">
+                <div class="form-group">
+                    <label>Step</label>
+                    <input type="text" name="step" placeholder="step represents a unit of time when" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Type</label>
+                    <input type="text" name="type" placeholder="type of online transaction" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="text" name="amount" placeholder="the amount of the transaction" required>
+                </div>
+
+                <div class="form-group">
+                    <label>OldbalanceOrg</label>
+                    <input type="text" name="oldbalanceOrg" placeholder="balance before the transaction" required>
+                </div>
+
+                <div class="form-group">
+                    <label>NewbalanceOrig</label>
+                    <input type="text" name="newbalanceOrig" placeholder="balance after the transaction" required>
+                </div>
+
+                <div class="form-group">
+                    <label>OldbalanceDest</label>
+                    <input type="text" name="oldbalanceDest" placeholder="initial balance of recipient before the" required>
+                </div>
+
+                <div class="form-group">
+                    <label>NewbalanceDest</label>
+                    <input type="text" name="newbalanceDest" placeholder="the new balance of recipient after th" required>
+                </div>
+
+                <button type="submit" class="btn-predict">Predict</button>
+            </form>
+        </div>
+
+        <!-- Right: Illustration -->
+        <div class="illustration-section">
+            <svg viewBox="0 0 460 440" xmlns="http://www.w3.org/2000/svg">
+                <!-- Hacker / Spy figure -->
+                <g transform="translate(230, 40)">
+                    <!-- Hat -->
+                    <ellipse cx="0" cy="18" rx="42" ry="8" fill="#2c3e50"/>
+                    <path d="M-30,18 C-30,-10 30,-10 30,18" fill="#2c3e50"/>
+                    <!-- Head -->
+                    <ellipse cx="0" cy="35" rx="28" ry="22" fill="#e0d5c8"/>
+                    <!-- Sunglasses -->
+                    <rect x="-22" y="28" width="18" height="12" rx="3" fill="#1a1a2e"/>
+                    <rect x="4" y="28" width="18" height="12" rx="3" fill="#1a1a2e"/>
+                    <line x1="-4" y1="34" x2="4" y2="34" stroke="#1a1a2e" stroke-width="2"/>
+                    <!-- Glasses glare -->
+                    <rect x="-18" y="30" width="6" height="3" rx="1" fill="#fff" opacity="0.3"/>
+                    <rect x="8" y="30" width="6" height="3" rx="1" fill="#fff" opacity="0.3"/>
+                    <!-- Body / Coat -->
+                    <path d="M-28,55 C-35,55 -40,70 -40,90 L40,90 C40,70 35,55 28,55 Z" fill="#2c3e50"/>
+                    <!-- Collar -->
+                    <path d="M-8,55 L0,70 L8,55" fill="none" stroke="#1a1a2e" stroke-width="2"/>
+                </g>
+
+                <!-- Arrows around hacker -->
+                <!-- Left arrows -->
+                <g transform="translate(160, 90)" opacity="0.5">
+                    <polyline points="0,0 -15,-10 -12,-2" fill="none" stroke="#2c6e8a" stroke-width="2.5" stroke-linecap="round"/>
+                </g>
+                <g transform="translate(155, 110)" opacity="0.4">
+                    <polyline points="0,0 -18,0 -14,6" fill="none" stroke="#2c6e8a" stroke-width="2" stroke-linecap="round"/>
+                </g>
+                <!-- Right arrows -->
+                <g transform="translate(300, 90)" opacity="0.5">
+                    <polyline points="0,0 15,-10 12,-2" fill="none" stroke="#2c6e8a" stroke-width="2.5" stroke-linecap="round"/>
+                </g>
+                <g transform="translate(305, 110)" opacity="0.4">
+                    <polyline points="0,0 18,0 14,6" fill="none" stroke="#2c6e8a" stroke-width="2" stroke-linecap="round"/>
+                </g>
+
+                <!-- X marks -->
+                <g transform="translate(330, 85)" opacity="0.5">
+                    <line x1="-6" y1="-6" x2="6" y2="6" stroke="#2c6e8a" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="6" y1="-6" x2="-6" y2="6" stroke="#2c6e8a" stroke-width="3" stroke-linecap="round"/>
+                </g>
+                <g transform="translate(145, 65)" opacity="0.4">
+                    <line x1="-5" y1="-5" x2="5" y2="5" stroke="#2c6e8a" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="5" y1="-5" x2="-5" y2="5" stroke="#2c6e8a" stroke-width="2.5" stroke-linecap="round"/>
+                </g>
+                <g transform="translate(400, 170)" opacity="0.45">
+                    <line x1="-7" y1="-7" x2="7" y2="7" stroke="#2c6e8a" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="7" y1="-7" x2="-7" y2="7" stroke="#2c6e8a" stroke-width="3" stroke-linecap="round"/>
+                </g>
+
+                <!-- Magnifying glass -->
+                <g transform="translate(350, 110)">
+                    <circle cx="0" cy="0" r="14" fill="none" stroke="#2c6e8a" stroke-width="3" opacity="0.6"/>
+                    <line x1="10" y1="10" x2="20" y2="20" stroke="#2c6e8a" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+                </g>
+
+                <!-- Dashed border rectangle -->
+                <rect x="130" y="135" width="250" height="165" rx="12" fill="none" stroke="#2c6e8a" stroke-width="2.5" stroke-dasharray="10 6" opacity="0.45"/>
+
+                <!-- Credit Card -->
+                <rect x="140" y="145" width="230" height="145" rx="12" fill="#4a9ed0" opacity="0.9"/>
+                <rect x="140" y="145" width="230" height="145" rx="12" fill="none" stroke="#3a8cb8" stroke-width="1.5"/>
+                <!-- Magnetic strip -->
+                <rect x="140" y="165" width="230" height="12" fill="#2c6e8a" opacity="0.35"/>
+                <!-- Card chip -->
+                <rect x="170" y="195" width="38" height="28" rx="5" fill="#e8c547" opacity="0.85"/>
+                <line x1="170" y1="205" x2="208" y2="205" stroke="#c9a83a" stroke-width="1"/>
+                <line x1="170" y1="215" x2="208" y2="215" stroke="#c9a83a" stroke-width="1"/>
+                <line x1="189" y1="195" x2="189" y2="223" stroke="#c9a83a" stroke-width="1"/>
+                <!-- Card lines -->
+                <rect x="170" y="240" width="100" height="8" rx="4" fill="#fff" opacity="0.3"/>
+                <rect x="170" y="258" width="60" height="8" rx="4" fill="#fff" opacity="0.2"/>
+                <!-- WiFi/contactless icon on card -->
+                <g transform="translate(330, 200)" opacity="0.5">
+                    <path d="M-6,4 C-6,-2 6,-2 6,4" fill="none" stroke="#fff" stroke-width="1.5"/>
+                    <path d="M-10,2 C-10,-6 10,-6 10,2" fill="none" stroke="#fff" stroke-width="1.5"/>
+                    <path d="M-14,0 C-14,-10 14,-10 14,0" fill="none" stroke="#fff" stroke-width="1.5"/>
+                </g>
+
+                <!-- Upload arrows -->
+                <g transform="translate(295, 140)" opacity="0.5">
+                    <line x1="0" y1="10" x2="0" y2="-5" stroke="#2c6e8a" stroke-width="2.5" stroke-linecap="round"/>
+                    <polyline points="-5,0 0,-5 5,0" fill="none" stroke="#2c6e8a" stroke-width="2.5" stroke-linecap="round"/>
+                </g>
+                <g transform="translate(315, 140)" opacity="0.4">
+                    <line x1="0" y1="10" x2="0" y2="-5" stroke="#2c6e8a" stroke-width="2" stroke-linecap="round"/>
+                    <polyline points="-5,0 0,-5 5,0" fill="none" stroke="#2c6e8a" stroke-width="2" stroke-linecap="round"/>
+                </g>
+
+                <!-- Bar Chart - bottom left -->
+                <g transform="translate(100, 390)">
+                    <rect x="0" y="-40" width="14" height="40" rx="3" fill="#2c6e8a" opacity="0.7"/>
+                    <rect x="20" y="-65" width="14" height="65" rx="3" fill="#3a8cb8" opacity="0.8"/>
+                    <rect x="40" y="-50" width="14" height="50" rx="3" fill="#4a9ed0" opacity="0.7"/>
+                    <rect x="60" y="-75" width="14" height="75" rx="3" fill="#2c6e8a" opacity="0.8"/>
+                    <!-- Trend line -->
+                    <polyline points="7,-35 27,-60 47,-45 67,-70" fill="none" stroke="#1a4a6e" stroke-width="2" stroke-linecap="round"/>
+                    <polygon points="67,-70 63,-62 71,-62" fill="#1a4a6e"/>
+                </g>
+
+                <!-- Gear icon - bottom left -->
+                <g transform="translate(80, 400)">
+                    <circle cx="0" cy="0" r="12" fill="none" stroke="#2c6e8a" stroke-width="2.5" opacity="0.55"/>
+                    <circle cx="0" cy="0" r="5" fill="#2c6e8a" opacity="0.45"/>
+                    <rect x="-2" y="-16" width="4" height="6" rx="1" fill="#2c6e8a" opacity="0.55"/>
+                    <rect x="-2" y="10" width="4" height="6" rx="1" fill="#2c6e8a" opacity="0.55"/>
+                    <rect x="-16" y="-2" width="6" height="4" rx="1" fill="#2c6e8a" opacity="0.55"/>
+                    <rect x="10" y="-2" width="6" height="4" rx="1" fill="#2c6e8a" opacity="0.55"/>
+                </g>
+
+                <!-- Dashed line bottom -->
+                <line x1="140" y1="340" x2="390" y2="340" stroke="#2c6e8a" stroke-width="2.5" stroke-dasharray="10 6" opacity="0.4"/>
+
+                <!-- Shield with Lock - bottom right -->
+                <g transform="translate(360, 350)">
+                    <path d="M0,-50 L38,-36 L38,10 C38,32 19,50 0,58 C-19,50 -38,32 -38,10 L-38,-36 Z"
+                          fill="#4a90b8" opacity="0.8" stroke="#3a7ca5" stroke-width="2"/>
+                    <path d="M0,-50 L38,-36 L38,10 C38,32 19,50 0,58 L0,-50 Z"
+                          fill="#3a8cb8" opacity="0.55"/>
+                    <!-- Lock body -->
+                    <rect x="-13" y="-6" width="26" height="20" rx="4" fill="#2c6e8a"/>
+                    <!-- Lock shackle -->
+                    <path d="M-7,-6 L-7,-16 C-7,-25 7,-25 7,-16 L7,-6"
+                          fill="none" stroke="#2c6e8a" stroke-width="3.5" stroke-linecap="round"/>
+                    <!-- Keyhole -->
+                    <circle cx="0" cy="3" r="3.5" fill="#a8d4f0"/>
+                    <rect x="-1.5" y="3" width="3" height="7" rx="1" fill="#a8d4f0"/>
+                </g>
+
+                <!-- Small decorative dots -->
+                <circle cx="410" cy="260" r="4" fill="#2c6e8a" opacity="0.3"/>
+                <circle cx="120" cy="330" r="3" fill="#3a8cb8" opacity="0.25"/>
+                <circle cx="430" cy="310" r="5" fill="#4a90b8" opacity="0.2"/>
+            </svg>
+        </div>
+    </div>
+
+</body>
+</html>

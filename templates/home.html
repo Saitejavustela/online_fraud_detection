@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Payments Fraud Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            background: #a8d4f0;
+        }
+
+        /* ── Navbar ── */
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 14px 30px;
+            background: transparent;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 4px;
+            background: #4a90b8;
+            margin-left: 10px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        nav a:hover {
+            background: #3a7ca5;
+            transform: translateY(-1px);
+        }
+
+        nav a.active {
+            background: #3a7ca5;
+        }
+
+        /* ── Hero Section ── */
+        .hero {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 56px);
+            padding: 40px 60px;
+            overflow: hidden;
+        }
+
+        /* Background illustration area */
+        .hero-bg {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 55%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-bg svg {
+            width: 90%;
+            max-width: 520px;
+            opacity: 0.85;
+        }
+
+        /* Content */
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .hero-content h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .hero-content p {
+            font-size: 16px;
+            line-height: 1.75;
+            color: #2c3e50;
+            font-style: italic;
+            text-align: justify;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* ── Illustration (inline SVG) ── */
+        .illustration {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .illustration svg {
+            width: 340px;
+            height: auto;
+            filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.12));
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 30px 24px;
+                flex-direction: column;
+            }
+
+            .hero-content h1 {
+                font-size: 24px;
+            }
+
+            .hero-content p {
+                font-size: 14px;
+            }
+
+            .illustration svg {
+                width: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="/" class="active">Home</a>
+        <a href="/predict">Predict</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Online Payments Fraud Detection</h1>
+            <p>
+                The objective of this article is to predict online payments fraud given the various parameters. This will be a
+                classification problem since the target or dependent variable is the fraud(categorical values). The purpose
+                of fraud of online payments are to separate the available supply of potable online payments into classes
+                differing in superiority. We will be using classification algorithms such as Decision tree, Random forest,
+                svm, and Extra tree classifier. We will train and test the data with these algorithms.
+            </p>
+
+            <!-- Inline SVG Illustration -->
+            <div class="illustration">
+                <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Credit Card -->
+                    <rect x="40" y="60" width="220" height="140" rx="14" fill="#4a90b8" opacity="0.9"/>
+                    <rect x="40" y="60" width="220" height="140" rx="14" fill="none" stroke="#3a7ca5" stroke-width="2"/>
+                    <!-- Card chip -->
+                    <rect x="70" y="100" width="40" height="30" rx="5" fill="#e8c547" opacity="0.9"/>
+                    <line x1="70" y1="110" x2="110" y2="110" stroke="#c9a83a" stroke-width="1"/>
+                    <line x1="70" y1="120" x2="110" y2="120" stroke="#c9a83a" stroke-width="1"/>
+                    <line x1="90" y1="100" x2="90" y2="130" stroke="#c9a83a" stroke-width="1"/>
+                    <!-- Card lines -->
+                    <rect x="70" y="150" width="100" height="8" rx="4" fill="#fff" opacity="0.3"/>
+                    <rect x="70" y="168" width="60" height="8" rx="4" fill="#fff" opacity="0.2"/>
+                    <!-- Card magnetic strip -->
+                    <rect x="40" y="80" width="220" height="12" fill="#2c6e8a" opacity="0.4"/>
+
+                    <!-- Dashed border around card -->
+                    <rect x="30" y="50" width="240" height="160" rx="18" fill="none" stroke="#2c6e8a" stroke-width="2.5" stroke-dasharray="10 6" opacity="0.5"/>
+
+                    <!-- Bar Chart -->
+                    <g transform="translate(50, 230)">
+                        <rect x="0" y="-40" width="14" height="40" rx="3" fill="#2c6e8a" opacity="0.7"/>
+                        <rect x="20" y="-65" width="14" height="65" rx="3" fill="#3a8cb8" opacity="0.8"/>
+                        <rect x="40" y="-50" width="14" height="50" rx="3" fill="#4a9ed0" opacity="0.7"/>
+                        <rect x="60" y="-75" width="14" height="75" rx="3" fill="#2c6e8a" opacity="0.8"/>
+                        <!-- Trend line -->
+                        <polyline points="7,-35 27,-60 47,-45 67,-70" fill="none" stroke="#1a4a6e" stroke-width="2" stroke-linecap="round"/>
+                        <!-- Arrow up -->
+                        <polygon points="67,-70 63,-62 71,-62" fill="#1a4a6e"/>
+                    </g>
+
+                    <!-- Gear icon -->
+                    <g transform="translate(40, 240)">
+                        <circle cx="0" cy="0" r="12" fill="none" stroke="#2c6e8a" stroke-width="2.5" opacity="0.6"/>
+                        <circle cx="0" cy="0" r="5" fill="#2c6e8a" opacity="0.5"/>
+                        <!-- Gear teeth -->
+                        <rect x="-2" y="-16" width="4" height="6" rx="1" fill="#2c6e8a" opacity="0.6"/>
+                        <rect x="-2" y="10" width="4" height="6" rx="1" fill="#2c6e8a" opacity="0.6"/>
+                        <rect x="-16" y="-2" width="6" height="4" rx="1" fill="#2c6e8a" opacity="0.6"/>
+                        <rect x="10" y="-2" width="6" height="4" rx="1" fill="#2c6e8a" opacity="0.6"/>
+                    </g>
+
+                    <!-- Shield with Lock -->
+                    <g transform="translate(300, 140)">
+                        <!-- Shield -->
+                        <path d="M0,-55 L40,-40 L40,10 C40,35 20,55 0,65 C-20,55 -40,35 -40,10 L-40,-40 Z"
+                              fill="#4a90b8" opacity="0.85" stroke="#3a7ca5" stroke-width="2"/>
+                        <path d="M0,-55 L40,-40 L40,10 C40,35 20,55 0,65 L0,-55 Z"
+                              fill="#3a8cb8" opacity="0.6"/>
+                        <!-- Lock body -->
+                        <rect x="-14" y="-8" width="28" height="22" rx="4" fill="#2c6e8a"/>
+                        <!-- Lock shackle -->
+                        <path d="M-8,-8 L-8,-18 C-8,-28 8,-28 8,-18 L8,-8"
+                              fill="none" stroke="#2c6e8a" stroke-width="4" stroke-linecap="round"/>
+                        <!-- Keyhole -->
+                        <circle cx="0" cy="2" r="4" fill="#a8d4f0"/>
+                        <rect x="-2" y="2" width="4" height="8" rx="1" fill="#a8d4f0"/>
+                    </g>
+
+                    <!-- Checkmark badge -->
+                    <g transform="translate(340, 80)">
+                        <circle cx="0" cy="0" r="16" fill="#5cb85c" opacity="0.85"/>
+                        <polyline points="-7,0 -2,6 8,-5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+
+                    <!-- Small decorative dots -->
+                    <circle cx="160" cy="30" r="4" fill="#2c6e8a" opacity="0.3"/>
+                    <circle cx="180" cy="25" r="3" fill="#3a8cb8" opacity="0.25"/>
+                    <circle cx="200" cy="35" r="5" fill="#4a90b8" opacity="0.2"/>
+                    <circle cx="350" cy="240" r="4" fill="#2c6e8a" opacity="0.3"/>
+                    <circle cx="370" cy="250" r="3" fill="#3a8cb8" opacity="0.2"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
